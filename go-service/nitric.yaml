@@ -1,11 +1,11 @@
 name: example-golang-service
 
 defaults:
-  # function defaults
+  # Function defaults
   functions:
     context: .
 
-# Nitric functions
+# Functions
 functions:
   create:
     handler: functions/create/main.go
@@ -14,9 +14,17 @@ functions:
   list:
     handler: functions/list/main.go
 
-# Nitric collections
+# Collections
 collections:
   example: {}
 
-# Nitric APIs
-apis: api.yaml
+# APIs
+apis:
+  example: api.yaml
+
+# Entrypoints
+#entrypoints:
+#  main:
+#    /:
+#      type: api
+#      target: example

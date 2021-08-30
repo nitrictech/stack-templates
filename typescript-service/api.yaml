@@ -1,25 +1,25 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: Orders API
-  description: Tutorial orders API
+  title: Example API
+  description: Example API
 paths:
   /examples:
     get:
-      operationId: orders-list
+      operationId: examples-list
       x-nitric-target:
-        name: orders-list
-        type: service
-      description: Retrieve all orders
+        name: list
+        type: function
+      description: Retrieve all examples
       responses:
         '200':
           description: Successful response
     post:
-      operationId: orders-create
+      operationId: examples-create
       x-nitric-target:
-        name: orders-create
-        type: service
-      description: Creates and persists new orders
+        name: create
+        type: function
+      description: Creates and persists new examples
       responses:
         '200':
           description: Successful response
@@ -28,23 +28,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrderCreate'
-  /orders/{orderId}:
+              $ref: '#/components/schemas/ExamplesCreate'
+  /examples/{exampleId}:
     get:
-      operationId: orders-get
+      operationId: examples-read
       x-nitric-target:
-        name: orders-get
-        type: service
-      description: Retrieve an existing order by its ID
+        name: read
+        type: function
+      description: Retrieve an existing example by its ID
       responses:
         '200':
           description: Successful response
 components:
   schemas:
-    OrderCreate:
+    ExamplesCreate:
       type: object
       properties:
-        itemId:
+        name:
           type: string
-        customerId:
+        description:
           type: string

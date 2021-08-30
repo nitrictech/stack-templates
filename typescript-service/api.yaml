@@ -1,0 +1,50 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Orders API
+  description: Tutorial orders API
+paths:
+  /examples:
+    get:
+      operationId: orders-list
+      x-nitric-target:
+        name: orders-list
+        type: service
+      description: Retrieve all orders
+      responses:
+        '200':
+          description: Successful response
+    post:
+      operationId: orders-create
+      x-nitric-target:
+        name: orders-create
+        type: service
+      description: Creates and persists new orders
+      responses:
+        '200':
+          description: Successful response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderCreate'
+  /orders/{orderId}:
+    get:
+      operationId: orders-get
+      x-nitric-target:
+        name: orders-get
+        type: service
+      description: Retrieve an existing order by its ID
+      responses:
+        '200':
+          description: Successful response
+components:
+  schemas:
+    OrderCreate:
+      type: object
+      properties:
+        itemId:
+          type: string
+        customerId:
+          type: string

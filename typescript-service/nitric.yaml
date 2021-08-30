@@ -1,0 +1,22 @@
+name: example-typescript-service
+
+defaults:
+  # function defaults
+  functions:
+    context: .
+
+# Nitric functions
+functions:
+  create:
+    handler: functions/create.ts
+  read:
+    handler: functions/read.ts
+  list:
+    handler: functions/list.ts
+
+# Nitric collections
+collections:
+  example: {}
+
+# Nitric APIs
+apis: api.yaml

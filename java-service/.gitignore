@@ -27,3 +27,5 @@ functions/read/target/
 functions/read/.classpath
 functions/read/.project
 functions/read/dependency-reduced-pom.xml
+
+.nitric/

@@ -32,6 +32,12 @@ paths:
   /examples/{exampleId}:
     get:
       operationId: examples-read
+      parameters:
+        - in: path
+          name: exampleId
+          schema:
+            type: string
+          required: true
       x-nitric-target:
         name: read
         type: function

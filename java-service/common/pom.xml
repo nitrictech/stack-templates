@@ -9,7 +9,6 @@
         <version>1.0</version>
     </parent>
 
-    <groupId>com.example.service</groupId>
     <artifactId>example-common</artifactId>
     <packaging>jar</packaging>
 

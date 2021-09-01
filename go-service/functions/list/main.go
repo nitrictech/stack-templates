@@ -26,6 +26,10 @@ func NitricFunction(trigger *faas.NitricTrigger) (*faas.NitricResponse, error) {
 	docs := make([]map[string]interface{}, 0)
 
 	for d, err := docIter.Next(); err != io.EOF; d, err = docIter.Next() {
+		if err != nil {
+			return nil, err
+		}
+
 		docs = append(docs, d.Content())
 	}
 

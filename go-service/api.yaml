@@ -31,9 +31,15 @@ paths:
               $ref: '#/components/schemas/ExamplesCreate'
   /examples/{exampleId}:
     get:
-      operationId: examples-read
+      operationId: examples-get
+      parameters:
+        - in: path
+          name: exampleId
+          schema:
+            type: string
+          required: true
       x-nitric-target:
-        name: read
+        name: get
         type: function
       description: Retrieve an existing example by its ID
       responses:

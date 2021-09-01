@@ -1,16 +1,11 @@
 name: example-golang-service
 
-defaults:
-  # Function defaults
-  functions:
-    context: .
-
 # Functions
 functions:
   create:
     handler: functions/create/main.go
-  read:
-    handler: functions/read/main.go
+  get:
+    handler: functions/get/main.go
   list:
     handler: functions/list/main.go
 

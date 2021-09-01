@@ -5,6 +5,6 @@ type Example struct {
 	Description string `json:"description"`
 }
 
-func (e Example) Map() map[string]interface {
+func (e Example) Map() map[string]interface{} {
 	return structToMap(e)
 }

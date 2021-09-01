@@ -14,7 +14,7 @@ func NitricFunction(trigger *faas.NitricTrigger) (*faas.NitricResponse, error) {
 	id := uuid.New().String()
 	resp := trigger.DefaultResponse()
 
-	var example *common.Example
+	example := &common.Example{}
 
 	if err := trigger.GetDataAsStruct(example); err != nil {
 		return nil, err

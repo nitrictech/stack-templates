@@ -10,7 +10,6 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.example.service</groupId>
     <artifactId>example-read</artifactId>
     <packaging>jar</packaging>
 

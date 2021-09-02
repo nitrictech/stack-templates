@@ -1,10 +1,5 @@
 name: example-typescript-service
 
-defaults:
-  # function defaults
-  functions:
-    context: .
-
 # Nitric functions
 functions:
   create:
@@ -19,4 +14,5 @@ collections:
   example: {}
 
 # Nitric APIs
-apis: api.yaml
+apis:
+  example: api.yaml

@@ -1,0 +1,7 @@
+templates:
+  - name: TypeScript Service
+    path: ./typescript-service
+  - name: Python Service
+    path: ./python-service
+  - name: Go Service
+    path: ./go-service

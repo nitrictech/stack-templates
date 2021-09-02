@@ -1,0 +1,25 @@
+name: example-golang-service
+
+# Functions
+functions:
+  create:
+    handler: functions/create/main.go
+  get:
+    handler: functions/get/main.go
+  list:
+    handler: functions/list/main.go
+
+# Collections
+collections:
+  example: {}
+
+# APIs
+apis:
+  example: api.yaml
+
+# Entrypoints
+#entrypoints:
+#  main:
+#    /:
+#      type: api
+#      target: example

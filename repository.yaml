@@ -3,5 +3,7 @@ templates:
     path: ./typescript-service
   - name: Python Service
     path: ./python-service
+  - name: Java Service
+    path: ./java-service
   - name: Go Service
     path: ./go-service

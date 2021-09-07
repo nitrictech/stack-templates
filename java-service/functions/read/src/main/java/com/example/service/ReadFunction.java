@@ -5,7 +5,6 @@ import java.io.IOException;
 import com.example.service.model.Example;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.nitric.api.NotFoundException;
 import io.nitric.api.document.Documents;
 import io.nitric.faas.Faas;
 import io.nitric.faas.Trigger;
@@ -26,11 +25,6 @@ public class ReadFunction implements NitricFunction {
             var response = trigger.buildResponse(json);
             response.getContext().asHttp().addHeader("Content-Type", "application/json");
             response.getContext().asHttp().setStatus(200);
-            return response;
-
-        } catch (NotFoundException nfe) {
-            var response = trigger.buildResponse("Error retrieving document: " + nfe);
-            response.getContext().asHttp().setStatus(404);
             return response;
 
         } catch (IOException ioe) {

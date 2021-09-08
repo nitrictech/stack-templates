@@ -20,7 +20,7 @@ faas.start(
     try {
       console.log("getting doc id", id);
       const example = await documents()
-        .collection<Example>("example")
+        .collection<Example>("examples")
         .doc(id)
         .get();
       response.data = example;

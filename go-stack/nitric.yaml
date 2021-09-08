@@ -11,12 +11,11 @@ functions:
 
 # Collections
 collections:
-  example: {}
+  examples: {}
 
 # APIs
 apis:
-  example: api.yaml
-
+  examples: api.yaml
 # Entrypoints
 #entrypoints:
 #  main:

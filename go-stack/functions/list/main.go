@@ -18,7 +18,7 @@ func NitricFunction(trigger *faas.NitricTrigger) (*faas.NitricResponse, error) {
 		return nil, err
 	}
 
-	docIter, err := dc.Collection("example").Query().Stream()
+	docIter, err := dc.Collection("examples").Query().Stream()
 	if err != nil {
 		return nil, err
 	}

@@ -18,7 +18,7 @@ public class ReadFunction implements NitricFunction {
         var id = trigger.getContext().asHttp().getPath();
         
         try {
-            var example = Documents.collection("example").doc(id, Example.class).get();
+            var example = Documents.collection("examples").doc(id, Example.class).get();
 
             var json = new ObjectMapper().writeValueAsString(example);
 

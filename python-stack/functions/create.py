@@ -9,7 +9,7 @@ async def handler(trigger: Trigger) -> str:
 
     doc_id = generate_id()
 
-    await Documents().collection("example").doc(doc_id).set(example)
+    await Documents().collection("examples").doc(doc_id).set(example)
 
     return f'created example with ID: {doc_id}'
 

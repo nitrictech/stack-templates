@@ -1,6 +1,6 @@
 name: example-golang-service
 
-# Functions
+# Nitric functions
 functions:
   create:
     handler: functions/create/main.go
@@ -9,16 +9,10 @@ functions:
   list:
     handler: functions/list/main.go
 
-# Collections
+# Nitric Collections
 collections:
   examples: {}
 
-# APIs
+# Nitric APIs
 apis:
   examples: api.yaml
-# Entrypoints
-#entrypoints:
-#  main:
-#    /:
-#      type: api
-#      target: example

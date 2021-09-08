@@ -1,7 +1,9 @@
 templates:
-  - name: TypeScript Service
-    path: ./typescript-service
-  - name: Python Service
-    path: ./python-service
-  - name: Go Service
-    path: ./go-service
+  - name: TypeScript Stack
+    path: ./typescript-stack
+  - name: Python Stack
+    path: ./python-stack
+  - name: Java Stack
+    path: ./java-stack
+  - name: Go Stack
+    path: ./go-stack

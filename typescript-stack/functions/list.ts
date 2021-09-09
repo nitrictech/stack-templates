@@ -8,7 +8,7 @@ faas.start(
 
     try {
       const examples = await documents()
-        .collection<Example>("example")
+        .collection<Example>("examples")
         .query()
         .fetch();
       const exampleResults = [];

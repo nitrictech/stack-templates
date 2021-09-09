@@ -20,7 +20,7 @@ func NitricFunction(trigger *faas.NitricTrigger) (*faas.NitricResponse, error) {
 		return nil, err
 	}
 
-	doc, err := dc.Collection("example").Doc(id).Get()
+	doc, err := dc.Collection("examples").Doc(id).Get()
 	if err != nil {
 		resp.SetData([]byte("Error retrieving document"))
 		resp.GetContext().AsHttp().Status = 404

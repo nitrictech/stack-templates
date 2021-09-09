@@ -7,7 +7,7 @@ async def handler(trigger: Trigger) -> Response:
     response = trigger.default_response()
 
     try:
-        examples_query = Documents().collection("example").query()
+        examples_query = Documents().collection("examples").query()
         response.data = [doc.content async for doc in examples_query.stream()]
     except NitricServiceException:
         response.context.as_http().status = 500

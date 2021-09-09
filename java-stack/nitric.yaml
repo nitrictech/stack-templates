@@ -11,8 +11,8 @@ functions:
 
 # Nitric collections
 collections:
-  example: {}
+  examples: {}
 
 # Nitric APIs
-apis: 
-  example: api.yaml
+apis:
+  examples: api.yaml

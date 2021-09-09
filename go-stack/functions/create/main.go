@@ -26,7 +26,7 @@ func NitricFunction(trigger *faas.NitricTrigger) (*faas.NitricResponse, error) {
 		return nil, err
 	}
 
-	if err := dc.Collection("example").Doc(id).Set(example.Map()); err != nil {
+	if err := dc.Collection("examples").Doc(id).Set(example.Map()); err != nil {
 		return nil, err
 	}
 

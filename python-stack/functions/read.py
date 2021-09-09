@@ -16,7 +16,7 @@ async def handler(trigger: Trigger) -> Response:
         return response
 
     try:
-        example = await Documents().collection("example").doc(doc_id).get()
+        example = await Documents().collection("examples").doc(doc_id).get()
         response.data = example.content
     except NotFoundException:
         response.context.as_http().status = 404

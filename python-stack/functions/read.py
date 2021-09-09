@@ -9,7 +9,7 @@ async def handler(trigger: Trigger) -> Response:
 
     # get id param from HTTP request path
     try:
-        doc_id = ctx.path.split("/")[1]
+        doc_id = ctx.path.split("/")[-1]
     except IndexError:
         response.data = "Invalid request"
         response.context.as_http().status = 400

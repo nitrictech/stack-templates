@@ -12,7 +12,7 @@ paths:
         type: function
       description: Retrieve all examples
       responses:
-        '200':
+        "200":
           description: Successful response
     post:
       operationId: examples-create
@@ -21,17 +21,17 @@ paths:
         type: function
       description: Creates and persists new examples
       responses:
-        '200':
+        "200":
           description: Successful response
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ExamplesCreate'
+              $ref: "#/components/schemas/ExamplesCreate"
   /examples/{exampleId}:
     get:
-      operationId: examples-get
+      operationId: examples-read
       parameters:
         - in: path
           name: exampleId
@@ -39,11 +39,11 @@ paths:
             type: string
           required: true
       x-nitric-target:
-        name: get
+        name: read
         type: function
       description: Retrieve an existing example by its ID
       responses:
-        '200':
+        "200":
           description: Successful response
 components:
   schemas:

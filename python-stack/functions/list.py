@@ -8,7 +8,8 @@ async def handler(trigger: Trigger) -> Response:
 
     try:
         examples_query = Documents().collection("examples").query()
-        response.data = [doc.content async for doc in examples_query.stream()]
+        results = await examples_query.fetch()
+        response.data = [doc.content for doc in results.documents]
     except NitricServiceException:
         response.context.as_http().status = 500
         response.data = "An unexpected error occurred"

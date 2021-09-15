@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 
 	"github.com/nitrictech/go-sdk/api/documents"
 	"github.com/nitrictech/go-sdk/faas"
@@ -18,19 +17,18 @@ func NitricFunction(trigger *faas.NitricTrigger) (*faas.NitricResponse, error) {
 		return nil, err
 	}
 
-	docIter, err := dc.Collection("examples").Query().Stream()
+	query := dc.Collection("example").Query()
+	results, err := query.Fetch()
+
 	if err != nil {
 		return nil, err
 	}
 
 	docs := make([]map[string]interface{}, 0)
 
-	for d, err := docIter.Next(); err != io.EOF; d, err = docIter.Next() {
-		if err != nil {
-			return nil, err
-		}
-
-		docs = append(docs, d.Content())
+	for _, doc := range results.Documents {
+		// handle documents
+		docs = append(docs, doc.Content())
 	}
 
 	b, err := json.Marshal(docs)
@@ -39,7 +37,7 @@ func NitricFunction(trigger *faas.NitricTrigger) (*faas.NitricResponse, error) {
 	}
 
 	resp.SetData(b)
-	resp.GetContext().AsHttp().Headers["Content-Type"] = "application/json"
+	resp.GetContext().AsHttp().Headers["Content-Type"] = []string{"application/json"}
 
 	return resp, nil
 }

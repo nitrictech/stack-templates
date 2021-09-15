@@ -14,6 +14,8 @@ import io.nitric.faas.Trigger;
 
 public class CreateFunction implements NitricFunction {
 
+    Documents documents = new Documents();
+
     @Override
     public Response handle(Trigger trigger) {
         try {
@@ -21,7 +23,7 @@ public class CreateFunction implements NitricFunction {
             var example = new ObjectMapper().readValue(json, Example.class);
             var id = UUID.randomUUID().toString();
 
-            Documents.collection("examples").doc(id, Example.class).set(example);
+            documents.collection("example").doc(id, Example.class).set(example);
 
             var msg = String.format("Created example with ID: %s", id);
             return trigger.buildResponse(msg);

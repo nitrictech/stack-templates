@@ -37,7 +37,7 @@ func NitricFunction(trigger *faas.NitricTrigger) (*faas.NitricResponse, error) {
 	}
 
 	resp.SetData(b)
-	resp.GetContext().AsHttp().Headers["Content-Type"] = "application/json"
+	resp.GetContext().AsHttp().Headers["Content-Type"] = []string{"application/json"}
 
 	return resp, nil
 }

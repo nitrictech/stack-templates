@@ -26,7 +26,7 @@ public class CreateFunctionTest {
         Collection collection = mock(Collection.class);
         DocumentRef<Example> documentRef = mock(DocumentRef.class);
 
-        when(documents.collection(matches("example"))).thenReturn(collection);
+        when(documents.collection(matches("examples"))).thenReturn(collection);
         when(collection.doc(anyString(), eq(Example.class))).thenReturn(documentRef);
         doNothing().when(documentRef).set(isA(Example.class));
 

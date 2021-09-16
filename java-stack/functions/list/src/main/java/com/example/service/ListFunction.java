@@ -17,9 +17,11 @@ import java.util.stream.Stream;
 
 public class ListFunction implements NitricFunction {
 
+    Documents documents = new Documents();
+
     @Override
     public Response handle(Trigger trigger) {
-        Stream<ResultDoc<Example>> stream = Documents.collection("examples").query(Example.class).stream();
+        Stream<ResultDoc<Example>> stream = documents.collection("example").query(Example.class).stream();
 
         List<Example> examples = stream
              .map(ResultDoc::getContent)

@@ -30,7 +30,7 @@ func NitricFunction(trigger *faas.NitricTrigger) (*faas.NitricResponse, error) {
 		return nil, err
 	}
 
-	resp.SetData([]byte(fmt.Sprintf("Successfully created example: %s", id)))
+	resp.SetData([]byte(fmt.Sprintf("Created example with ID: %s", id)))
 
 	return resp, nil
 }

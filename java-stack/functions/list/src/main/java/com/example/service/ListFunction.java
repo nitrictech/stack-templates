@@ -21,7 +21,7 @@ public class ListFunction implements NitricFunction {
 
     @Override
     public Response handle(Trigger trigger) {
-        Stream<ResultDoc<Example>> stream = documents.collection("example").query(Example.class).stream();
+        Stream<ResultDoc<Example>> stream = documents.collection("examples").query(Example.class).stream();
 
         List<Example> examples = stream
              .map(ResultDoc::getContent)

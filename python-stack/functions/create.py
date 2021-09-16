@@ -11,7 +11,7 @@ async def handler(trigger: Trigger) -> str:
 
     await Documents().collection("examples").doc(doc_id).set(example)
 
-    return f'created example with ID: {doc_id}'
+    return f'Created example with ID: {doc_id}'
 
 
 if __name__ == "__main__":

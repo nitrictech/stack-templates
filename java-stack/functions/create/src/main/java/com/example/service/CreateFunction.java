@@ -23,7 +23,7 @@ public class CreateFunction implements NitricFunction {
             var example = new ObjectMapper().readValue(json, Example.class);
             var id = UUID.randomUUID().toString();
 
-            documents.collection("example").doc(id, Example.class).set(example);
+            documents.collection("examples").doc(id, Example.class).set(example);
 
             var msg = String.format("Created example with ID: %s", id);
             return trigger.buildResponse(msg);

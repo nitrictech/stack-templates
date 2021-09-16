@@ -23,16 +23,15 @@ public class ListFunctionTest {
     @Test
     public void test_handle() {
 
-        var function = new ListFunction();
-        function.documents = mock(Documents.class, Mockito.RETURNS_DEEP_STUBS);
+        var documents = mock(Documents.class, Mockito.RETURNS_DEEP_STUBS);
 
         List<ResultDoc<Example>> results = List.of(
-            new ResultDoc<Example>(null, new Example("java-service", "Java Service Example")),
-            new ResultDoc<Example>(null, new Example("python-service", "Pythyon Service Example")),
-            new ResultDoc<Example>(null, new Example("typescript-service", "TypeScript Service Example"))
+            new ResultDoc<Example>(new Example("java-service", "Java Service Example")),
+            new ResultDoc<Example>(new Example("python-service", "Pythyon Service Example")),
+            new ResultDoc<Example>(new Example("typescript-service", "TypeScript Service Example"))
         );
 
-        when(function.documents.collection(anyString())
+        when(documents.collection(anyString())
                 .query(eq(Example.class))
                 .stream()
             ).thenReturn(results.stream());
@@ -40,6 +39,8 @@ public class ListFunctionTest {
         var trigger = MockTrigger.newHttpTriggerBuilder()
             .setMethod("GET")
             .build();
+
+        var function = new ListFunction(documents);
 
         var response = function.handle(trigger);
 

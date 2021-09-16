@@ -22,13 +22,11 @@ public class CreateFunctionTest {
     @Test
     public void test_handle() {
 
-        var function = new CreateFunction();
-
-        function.documents = mock(Documents.class);
+        Documents documents = mock(Documents.class);
         Collection collection = mock(Collection.class);
         DocumentRef<Example> documentRef = mock(DocumentRef.class);
 
-        when(function.documents.collection(matches("example"))).thenReturn(collection);
+        when(documents.collection(matches("example"))).thenReturn(collection);
         when(collection.doc(anyString(), eq(Example.class))).thenReturn(documentRef);
         doNothing().when(documentRef).set(isA(Example.class));
 
@@ -39,6 +37,8 @@ public class CreateFunctionTest {
             .setPath("/")
             .setDataAsText(data)
             .build();
+
+        var function = new CreateFunction(documents);
 
         var response = function.handle(trigger);
 

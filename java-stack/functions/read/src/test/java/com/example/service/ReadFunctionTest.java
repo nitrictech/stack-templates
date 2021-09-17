@@ -21,20 +21,21 @@ public class ReadFunctionTest {
     @Test
     public void test_handle() {
 
-        var function = new ReadFunction();
-        function.documents = mock(Documents.class, Mockito.RETURNS_DEEP_STUBS);
+        var documents = mock(Documents.class, Mockito.RETURNS_DEEP_STUBS); 
 
         var example = new Example("name", "description");
 
-        when(function.documents.collection(anyString())
-                .doc(matches("123"), eq(Example.class))
+        when(documents.collection(anyString())
+                .doc(matches("e56b618e-bc13-41be-b935-8c280e37fcce"), eq(Example.class))
                 .get()
             ).thenReturn(example);
 
         var trigger = MockTrigger.newHttpTriggerBuilder()
             .setMethod("GET")
-            .setPath("123")
+            .setPath("/examples/e56b618e-bc13-41be-b935-8c280e37fcce")
             .build();
+
+        var function = new ReadFunction(documents);
 
         var response = function.handle(trigger);
 

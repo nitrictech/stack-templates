@@ -17,11 +17,15 @@ import java.util.stream.Stream;
 
 public class ListFunction implements NitricFunction {
 
-    Documents documents = new Documents();
+    final Documents documents;
+
+    public ListFunction(Documents documents) {
+        this.documents = documents;
+    }
 
     @Override
     public Response handle(Trigger trigger) {
-        Stream<ResultDoc<Example>> stream = documents.collection("example").query(Example.class).stream();
+        Stream<ResultDoc<Example>> stream = documents.collection("examples").query(Example.class).stream();
 
         List<Example> examples = stream
              .map(ResultDoc::getContent)
@@ -43,7 +47,7 @@ public class ListFunction implements NitricFunction {
     }
 
     public static void main(String[] args) {
-        Faas.start(new ListFunction());
+        Faas.start(new ListFunction(new Documents()));
     }
 
 }

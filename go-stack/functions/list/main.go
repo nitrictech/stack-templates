@@ -17,7 +17,7 @@ func NitricFunction(trigger *faas.NitricTrigger) (*faas.NitricResponse, error) {
 		return nil, err
 	}
 
-	query := dc.Collection("example").Query()
+	query := dc.Collection("examples").Query()
 	results, err := query.Fetch()
 
 	if err != nil {

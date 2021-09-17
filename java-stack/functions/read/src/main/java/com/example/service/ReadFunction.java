@@ -13,14 +13,19 @@ import io.nitric.faas.Response;
 
 public class ReadFunction implements NitricFunction {
 
-    Documents documents = new Documents();
+    final Documents documents;
+
+    public ReadFunction(Documents documents) {
+        this.documents = documents;
+    }
 
     @Override
     public Response handle(Trigger trigger) {
-        var id = trigger.getContext().asHttp().getPath();
+        var paths = trigger.getContext().asHttp().getPath().split("/");
+        var id = paths[paths.length - 1];
 
         try {
-            var example = documents.collection("example").doc(id, Example.class).get();
+            var example = documents.collection("examples").doc(id, Example.class).get();
 
             var json = new ObjectMapper().writeValueAsString(example);
 
@@ -37,7 +42,7 @@ public class ReadFunction implements NitricFunction {
     }
 
     public static void main(String[] args) {
-        Faas.start(new ReadFunction());
+        Faas.start(new ReadFunction(new Documents()));
     }
 
 }

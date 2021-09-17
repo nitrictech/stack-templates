@@ -15,4 +15,4 @@ collections:
 
 # Nitric APIs
 apis:
-  example: api.yaml
+  examples: api.yaml

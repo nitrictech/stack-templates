@@ -26,13 +26,13 @@ public class ReadFunctionTest {
         var example = new Example("name", "description");
 
         when(documents.collection(anyString())
-                .doc(matches("123"), eq(Example.class))
+                .doc(matches("e56b618e-bc13-41be-b935-8c280e37fcce"), eq(Example.class))
                 .get()
             ).thenReturn(example);
 
         var trigger = MockTrigger.newHttpTriggerBuilder()
             .setMethod("GET")
-            .setPath("/123")
+            .setPath("/examples/e56b618e-bc13-41be-b935-8c280e37fcce")
             .build();
 
         var function = new ReadFunction(documents);

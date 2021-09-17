@@ -22,7 +22,7 @@ public class ReadFunction implements NitricFunction {
     @Override
     public Response handle(Trigger trigger) {
         var paths = trigger.getContext().asHttp().getPath().split("/");
-        var id = paths[1];
+        var id = paths[paths.length - 1];
 
         try {
             var example = documents.collection("examples").doc(id, Example.class).get();

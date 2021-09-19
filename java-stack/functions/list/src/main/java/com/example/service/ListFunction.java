@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.service.middleware.LoggerMiddleware;
 import com.example.service.model.Example;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -53,8 +54,12 @@ public class ListFunction implements HttpHandler {
     }
 
     public static void main(String[] args) {
-        var list = new ListFunction(new Documents());
-        new Faas().http(list).start();
+        var listFunction = new ListFunction(new Documents());
+
+        new Faas()
+            .http(listFunction)
+            .addMiddleware(new LoggerMiddleware())
+            .start();
     }
 
 }

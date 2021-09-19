@@ -3,6 +3,7 @@ package com.example.service;
 import java.io.IOException;
 import java.util.UUID;
 
+import com.example.service.middleware.LoggerMiddleware;
 import com.example.service.model.Example;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -46,8 +47,12 @@ public class CreateFunction implements HttpHandler {
     }
 
     public static void main(String[] args) {
-        var create = new CreateFunction(new Documents());
-        new Faas().http(create).start();
+        var createFunction = new CreateFunction(new Documents());
+
+        new Faas()
+            .http(createFunction)
+            .addMiddleware(new LoggerMiddleware())
+            .start();
     }
 
 }

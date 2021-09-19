@@ -1,5 +1,7 @@
 package com.example.service;
 
+import com.example.service.middleware.LoggerMiddleware;
+
 import io.nitric.api.NotFoundException;
 import io.nitric.api.document.Documents;
 import io.nitric.faas2.Faas;
@@ -43,7 +45,11 @@ public class ReadFunction implements HttpHandler {
     }
 
     public static void main(String[] args) {
-        var read = new ReadFunction(new Documents());
-        new Faas().http(read).start();
+        var readFunction = new ReadFunction(new Documents());
+
+        new Faas()
+            .http(readFunction)
+            .addMiddleware(new LoggerMiddleware())
+            .start();
     }
 }

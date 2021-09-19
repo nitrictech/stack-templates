@@ -1,17 +1,15 @@
 package com.example.service;
 
-import java.io.IOException;
-
-import com.example.service.model.Example;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import io.nitric.api.NotFoundException;
 import io.nitric.api.document.Documents;
-import io.nitric.faas.Faas;
-import io.nitric.faas.Trigger;
-import io.nitric.faas.NitricFunction;
-import io.nitric.faas.Response;
+import io.nitric.faas2.Faas;
+import io.nitric.faas2.http.HttpContext;
+import io.nitric.faas2.http.HttpHandler;
 
-public class ReadFunction implements NitricFunction {
+/**
+ * Provides an example document Read function.
+ */
+public class ReadFunction implements HttpHandler {
 
     final Documents documents;
 
@@ -20,29 +18,32 @@ public class ReadFunction implements NitricFunction {
     }
 
     @Override
-    public Response handle(Trigger trigger) {
-        var paths = trigger.getContext().asHttp().getPath().split("/");
+    public HttpContext handle(HttpContext context) {
+
+        var paths = context.getRequest().getPath().split("/");
         var id = paths[paths.length - 1];
 
         try {
-            var example = documents.collection("examples").doc(id, Example.class).get();
+            var json = documents.collection("examples")
+                .doc(id)
+                .getJson();
 
-            var json = new ObjectMapper().writeValueAsString(example);
+            context.getResponse()
+                .status(200)
+                .addHeader("Content-Type", "application/json")
+                .data(json);
 
-            var response = trigger.buildResponse(json);
-            response.getContext().asHttp().addHeader("Content-Type", "application/json");
-            response.getContext().asHttp().setStatus(200);
-            return response;
-
-        } catch (IOException ioe) {
-            var response = trigger.buildResponse("Error retrieving document: ");
-            response.getContext().asHttp().setStatus(500);
-            return response;
+        } catch (NotFoundException nfe) {
+            context.getResponse()
+                .status(404)
+                .data("Document not found: " + id);
         }
+
+        return context;
     }
 
     public static void main(String[] args) {
-        Faas.start(new ReadFunction(new Documents()));
+        var read = new ReadFunction(new Documents());
+        new Faas().http(read).start();
     }
-
 }

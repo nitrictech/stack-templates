@@ -5,17 +5,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.nitric.api.document.Documents;
 import io.nitric.api.document.ResultDoc;
-import io.nitric.faas.Faas;
-import io.nitric.faas.Trigger;
-import io.nitric.faas.NitricFunction;
-import io.nitric.faas.Response;
+import io.nitric.faas2.Faas;
+import io.nitric.faas2.http.HttpContext;
+import io.nitric.faas2.http.HttpHandler;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ListFunction implements NitricFunction {
+/**
+ * Provides an example document List function.
+ */
+public class ListFunction implements HttpHandler {
 
     final Documents documents;
 
@@ -24,8 +26,10 @@ public class ListFunction implements NitricFunction {
     }
 
     @Override
-    public Response handle(Trigger trigger) {
-        Stream<ResultDoc<Example>> stream = documents.collection("examples").query(Example.class).stream();
+    public HttpContext handle(HttpContext context) {
+        Stream<ResultDoc<Example>> stream = documents.collection("examples")
+            .query(Example.class)
+            .stream();
 
         List<Example> examples = stream
              .map(ResultDoc::getContent)
@@ -34,20 +38,23 @@ public class ListFunction implements NitricFunction {
         try {
             var json = new ObjectMapper().writeValueAsString(examples);
 
-            var response = trigger.buildResponse(json);
-            response.getContext().asHttp().addHeader("Content-Type", "application/json");
-
-            return response;
+            context.getResponse()
+                .status(200)
+                .addHeader("Content-Type", "application/json")
+                .data(json);
 
         } catch (IOException ioe) {
-            var response = trigger.buildResponse("Error querying examples: " + ioe.toString());
-            response.getContext().asHttp().setStatus(500);
-            return response;
+            context.getResponse()
+                .status(500)
+                .data("Error querying examples: " + ioe.toString());
         }
+
+        return context;
     }
 
     public static void main(String[] args) {
-        Faas.start(new ListFunction(new Documents()));
+        var list = new ListFunction(new Documents());
+        new Faas().http(list).start();
     }
 
 }

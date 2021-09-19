@@ -7,12 +7,14 @@ import com.example.service.model.Example;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.nitric.api.document.Documents;
-import io.nitric.faas.Faas;
-import io.nitric.faas.NitricFunction;
-import io.nitric.faas.Response;
-import io.nitric.faas.Trigger;
+import io.nitric.faas2.Faas;
+import io.nitric.faas2.http.HttpContext;
+import io.nitric.faas2.http.HttpHandler;
 
-public class CreateFunction implements NitricFunction {
+/**
+ * Provides an example document Create function.
+ */
+public class CreateFunction implements HttpHandler {
 
     final Documents documents;
 
@@ -21,24 +23,31 @@ public class CreateFunction implements NitricFunction {
     }
 
     @Override
-    public Response handle(Trigger trigger) {
+    public HttpContext handle(HttpContext context) {
         try {
-            var json = trigger.getDataAsText();
+            var json = context.getRequest().getDataAsText();
             var example = new ObjectMapper().readValue(json, Example.class);
             var id = UUID.randomUUID().toString();
 
             documents.collection("examples").doc(id, Example.class).set(example);
 
             var msg = String.format("Created example with ID: %s", id);
-            return trigger.buildResponse(msg);
+            context.getResponse()
+                .status(200)
+                .data(msg);
 
         } catch (IOException ioe) {
-            return trigger.buildResponse("error: " + ioe);
+            context.getResponse()
+                .status(500)
+                .data("error: " + ioe);
         }
+
+        return context;
     }
 
     public static void main(String[] args) {
-        Faas.start(new CreateFunction(new Documents()));
+        var create = new CreateFunction(new Documents());
+        new Faas().http(create).start();
     }
 
 }

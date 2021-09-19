@@ -15,8 +15,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import io.nitric.api.document.Documents;
 import io.nitric.api.document.ResultDoc;
-import io.nitric.mock.faas.MockTrigger;
+import io.nitric.faas2.http.HttpContext;
 
+/**
+ * Provides a ListFunction unit test class.
+ */
 @ExtendWith(MockitoExtension.class)
 public class ListFunctionTest {
 
@@ -36,18 +39,21 @@ public class ListFunctionTest {
                 .stream()
             ).thenReturn(results.stream());
 
-        var trigger = MockTrigger.newHttpTriggerBuilder()
-            .setMethod("GET")
+        var context = HttpContext.newBuilder()
+            .method("GET")
             .build();
 
         var function = new ListFunction(documents);
 
-        var response = function.handle(trigger);
+        var ctx = function.handle(context);
 
-        assertEquals(200, response.getContext().asHttp().getStatus());
-        assertTrue(response.getDataAsText().contains("java-service"));
-        assertTrue(response.getDataAsText().contains("python-service"));
-        assertTrue(response.getDataAsText().contains("typescript-service"));
+        assertNotNull(ctx);
+        assertEquals(200, ctx.getResponse().getStatus());
+
+        var data = ctx.getResponse().getDataAsText();
+        assertTrue(data.contains("java-service"));
+        assertTrue(data.contains("python-service"));
+        assertTrue(data.contains("typescript-service"));
     }
     
 }

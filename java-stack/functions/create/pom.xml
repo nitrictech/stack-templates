@@ -30,7 +30,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.example.service.CreateFunction</mainClass>
+                            <mainClass>com.example.service.CreateHandler</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

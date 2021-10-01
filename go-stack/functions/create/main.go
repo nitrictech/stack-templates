@@ -9,15 +9,14 @@ import (
 	"nitric.io/example-service/common"
 )
 
-// NitricFunction - Handles individual function requests (http, events, etc.)
-func NitricFunction(trigger *faas.NitricTrigger) (*faas.NitricResponse, error) {
+const exampleKey = "example"
+
+func handler(ctx *faas.HttpContext, next faas.HttpHandler) (*faas.HttpContext, error) {
 	id := uuid.New().String()
-	resp := trigger.DefaultResponse()
+	example, ok := ctx.Extras[exampleKey].(map[string]interface{})
 
-	example := &common.Example{}
-
-	if err := trigger.GetDataAsStruct(example); err != nil {
-		return nil, err
+	if !ok || example == nil {
+		return nil, fmt.Errorf("unable to retrieve decoded example")
 	}
 
 	dc, err := documents.New()
@@ -26,17 +25,25 @@ func NitricFunction(trigger *faas.NitricTrigger) (*faas.NitricResponse, error) {
 		return nil, err
 	}
 
-	if err := dc.Collection("examples").Doc(id).Set(example.Map()); err != nil {
+	if err := dc.Collection("examples").Doc(id).Set(example); err != nil {
 		return nil, err
 	}
 
-	resp.SetData([]byte(fmt.Sprintf("Created example with ID: %s", id)))
+	ctx.Response.Status = 201
+	ctx.Response.Body = []byte(fmt.Sprintf("Created example with ID: %s", id))
 
-	return resp, nil
+	return next(ctx)
 }
 
 func main() {
-	if err := faas.Start(NitricFunction); err != nil {
+	err := faas.New().Http(
+		// Decoding middleware
+		common.Json(exampleKey),
+		// Actual Handler
+		handler,
+	).Start()
+
+	if err != nil {
 		fmt.Println(err)
 	}
 }

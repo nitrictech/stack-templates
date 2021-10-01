@@ -8,10 +8,7 @@ import (
 	"github.com/nitrictech/go-sdk/faas"
 )
 
-// NitricFunction - Handles individual function requests (http, events, etc.)
-func NitricFunction(trigger *faas.NitricTrigger) (*faas.NitricResponse, error) {
-	resp := trigger.DefaultResponse()
-
+func handler(ctx *faas.HttpContext, next faas.HttpHandler) (*faas.HttpContext, error) {
 	dc, err := documents.New()
 	if err != nil {
 		return nil, err
@@ -36,14 +33,19 @@ func NitricFunction(trigger *faas.NitricTrigger) (*faas.NitricResponse, error) {
 		return nil, err
 	}
 
-	resp.SetData(b)
-	resp.GetContext().AsHttp().Headers["Content-Type"] = []string{"application/json"}
+	ctx.Response.Body = b
+	ctx.Response.Headers["Content-Type"] = []string{"application/json"}
 
-	return resp, nil
+	return next(ctx)
 }
 
 func main() {
-	if err := faas.Start(NitricFunction); err != nil {
+	err := faas.New().Http(
+		// Actual Handler
+		handler,
+	).Start()
+
+	if err != nil {
 		fmt.Println(err)
 	}
 }

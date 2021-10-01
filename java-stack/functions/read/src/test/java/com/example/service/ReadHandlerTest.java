@@ -53,25 +53,25 @@ public class ReadHandlerTest {
     @Test
     public void test_not_found() {
 
-        // var documents = mock(Documents.class, Mockito.RETURNS_DEEP_STUBS); 
+        var documents = mock(Documents.class, Mockito.RETURNS_DEEP_STUBS); 
 
-        // when(documents.collection(anyString())
-        //         .doc(anyString(), eq(Example.class))
-        //         .getJson()
-        //     ).thenThrow(new NotFoundException(Code.NOT_FOUND, "", null, null));
+        when(documents.collection(anyString())
+                .doc(anyString(), eq(Example.class))
+                .getJson()
+            ).thenThrow(new NotFoundException(Code.NOT_FOUND, "", null, null));
 
-        // var context = HttpContext.newBuilder()
-        //     .method("GET")
-        //     .path("/examples/e56b618e-bc13-41be-b935-8c280e37fcce")
-        //     .build();
+        var context = HttpContext.newBuilder()
+            .method("GET")
+            .path("/examples/e56b618e-bc13-41be-b935-8c280e37fcce")
+            .build();
 
-        // var function = new ReadHandler(documents);
+        var function = new ReadHandler(documents);
 
-        // var ctx = function.handle(context);
+        var ctx = function.handle(context);
 
-        // assertNotNull(ctx);
-        // assertEquals(404, ctx.getResponse().getStatus());
-        // assertEquals("Document not found: e56b618e-bc13-41be-b935-8c280e37fcce", ctx.getResponse().getDataAsText());
+        assertNotNull(ctx);
+        assertEquals(404, ctx.getResponse().getStatus());
+        assertEquals("Document not found: e56b618e-bc13-41be-b935-8c280e37fcce", ctx.getResponse().getDataAsText());
     }
 
 }

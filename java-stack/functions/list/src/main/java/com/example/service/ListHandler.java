@@ -57,7 +57,7 @@ public class ListHandler implements HttpHandler {
         var listHandler = new ListHandler(new Documents());
 
         new Faas()
-            .addMiddleware(loggerMiddleware)
+            .http(loggerMiddleware)
             .http(listHandler)
             .start();
     }

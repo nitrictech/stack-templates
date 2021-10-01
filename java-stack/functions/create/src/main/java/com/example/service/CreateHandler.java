@@ -49,7 +49,7 @@ public class CreateHandler implements HttpHandler {
         var createHandler = new CreateHandler(new Documents());
 
         new Faas()
-            .addMiddleware(loggerMiddleware)
+            .http(loggerMiddleware)
             .http(createHandler)
             .start();
     }

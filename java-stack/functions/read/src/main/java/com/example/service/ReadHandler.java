@@ -26,7 +26,7 @@ public class ReadHandler implements HttpHandler {
         var paths = context.getRequest().getPath().split("/");
         var id = paths[paths.length - 1];
 
-        // try {
+        try {
             var json = documents.collection("examples")
                 .doc(id, Example.class)
                 .getJson();
@@ -35,11 +35,11 @@ public class ReadHandler implements HttpHandler {
                 .addHeader("Content-Type", "application/json")
                 .data(json);
 
-        // } catch (NotFoundException nfe) {
-        //     context.getResponse()
-        //         .status(404)
-        //         .data("Document not found: " + id);
-        // }
+        } catch (NotFoundException nfe) {
+            context.getResponse()
+                .status(404)
+                .data("Document not found: " + id);
+        }
 
         return context;
     }
@@ -49,7 +49,7 @@ public class ReadHandler implements HttpHandler {
         var readHandler = new ReadHandler(new Documents());
 
         new Faas()
-            .addMiddleware(loggerMiddleware)
+            .http(loggerMiddleware)
             .http(readHandler)
             .start();
     }

@@ -3,8 +3,6 @@ package common
 import (
 	"encoding/json"
 
-	"github.com/nitrictech/go-sdk/api/errors"
-	"github.com/nitrictech/go-sdk/api/errors/codes"
 	"github.com/nitrictech/go-sdk/faas"
 )
 
@@ -14,11 +12,10 @@ func Json(key string) faas.HttpMiddleware {
 		js := make(map[string]interface{})
 
 		if err := json.Unmarshal(ctx.Request.Data(), &js); err != nil {
-			return nil, errors.NewWithCause(
-				codes.InvalidArgument,
-				"HttpJsonMiddleware: Decoding Error",
-				err,
-			)
+			ctx.Response.Body = []byte("Bad Request: Expected JSON body")
+			ctx.Response.Status = 400
+
+			return ctx, nil
 		}
 
 		// decode into the copy of the struct

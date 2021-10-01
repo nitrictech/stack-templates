@@ -8,7 +8,7 @@ import (
 	"github.com/nitrictech/go-sdk/faas"
 )
 
-// HttpDecodeMiddleware - Middleware for decoding HTTP body as a struct
+// Json - Middleware parsing http context data as map[string]interface{}
 func Json(key string) faas.HttpMiddleware {
 	return func(ctx *faas.HttpContext, next faas.HttpHandler) (*faas.HttpContext, error) {
 		js := make(map[string]interface{})

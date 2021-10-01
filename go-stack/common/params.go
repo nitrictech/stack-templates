@@ -9,7 +9,7 @@ import (
 const paramToken = ":"
 const paramsKey = "params"
 
-// HttpDecodeMiddleware - Middleware for decoding HTTP body as a struct
+// PathParser - Middleware for parsing parameters from HTTP path
 func PathParser(paramExpression string) faas.HttpMiddleware {
 	pathParts := strings.Split(paramExpression, "/")
 	parts := make(map[int]string)

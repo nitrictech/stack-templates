@@ -1,0 +1,14 @@
+name: example-java-service
+
+# Nitric functions
+functions:
+  example-service:
+    handler: target/example-service-1.0.jar
+
+# Nitric collections
+collections:
+  examples: {}
+
+# Nitric APIs
+apis:
+  example: api.yaml

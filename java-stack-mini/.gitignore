@@ -1,0 +1,8 @@
+.nitric/
+
+# Ignore IDE files
+.idea/
+.settings/
+.vscode/
+.classpath
+.project

@@ -40,7 +40,7 @@ public class ListHandler implements HttpHandler {
             var json = new ObjectMapper().writeValueAsString(examples);
 
             context.getResponse()
-                .addHeader("Content-Type", "application/json")
+                .contentType("application/json")
                 .data(json);
 
         } catch (IOException ioe) {

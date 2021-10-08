@@ -32,7 +32,7 @@ public class ReadHandler implements HttpHandler {
                 .getJson();
 
             context.getResponse()
-                .addHeader("Content-Type", "application/json")
+                .contentType("application/json")
                 .data(json);
 
         } catch (NotFoundException nfe) {

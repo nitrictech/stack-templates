@@ -16,9 +16,10 @@ public class LoggerMiddleware extends HttpMiddleware {
         var ctx = next.handle(context, next.getNext());
 
         var duration = System.currentTimeMillis() - start;
-        System.out.printf("HTTP %s %s -> %s handled in %s ms\n",
+        System.out.printf("HTTP %s %s -> %s %s handled in %s ms\n",
                           ctx.getRequest().getMethod(),
                           ctx.getRequest().getPath(),
+                          ctx.getResponse().getStatus(),
                           next.getClass().getSimpleName(),
                           duration);
 

@@ -11,23 +11,19 @@ interface CreateContext extends faas.HttpContext {
 // Start your function here
 faas
   .http(
-    faas.createHandler(
-      faas.json(), //  use json body parser middleware to decode data
-      async (ctx: CreateContext): Promise<faas.HttpContext> => {
-        const example = ctx.req.body;
+    faas.json(), //  use json body parser middleware to decode data
+    async (ctx: CreateContext): Promise<faas.HttpContext> => {
+      const example = ctx.req.body;
 
-        // generate a new uuid
-        const id = uuid();
+      // generate a new uuid
+      const id = uuid();
 
-        // Create a new example document
-        await documents().collection("examples").doc(id).set(example);
+      // Create a new example document
+      await documents().collection("examples").doc(id).set(example);
 
-        ctx.res.body = new TextEncoder().encode(
-          `Created example with ID: ${id}`
-        );
+      ctx.res.body = new TextEncoder().encode(`Created example with ID: ${id}`);
 
-        return ctx;
-      }
-    )
+      return ctx;
+    }
   )
   .start();

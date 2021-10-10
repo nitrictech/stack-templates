@@ -19,9 +19,9 @@
     tslib "^2.1.0"
 
 "@nitric/sdk@rc-latest":
-  version "0.2.0-rc.7"
-  resolved "https://registry.yarnpkg.com/@nitric/sdk/-/sdk-0.2.0-rc.7.tgz#d62f0c430363cb6626a27042102f87622a02d45b"
-  integrity sha512-Udqf/4fCR3w0PbEP43GgcuodVbJlvar7SCTyydQGZzqqZWiw2HsuOrJRhqunGe11fxXP4wbz15DAyVcSy9Z/Iw==
+  version "0.2.0-rc.8"
+  resolved "https://registry.yarnpkg.com/@nitric/sdk/-/sdk-0.2.0-rc.8.tgz#3bc849d983587f08729f9a786b79b394bd340469"
+  integrity sha512-xyMQO2pOrSrHHm65VNhl60idu3+FqzTtbc1h+BqxB4cjUERF/LsNhQNSCCtWss2bshzELb55cX7IPV4+mcBLFg==
   dependencies:
     "@grpc/grpc-js" "^1.1.7"
     "@nitric/api" "^0.12.0-rc.15"

@@ -2,19 +2,14 @@ import { faas, documents } from "@nitric/sdk";
 import { Example, path } from "../common";
 
 // Start your function here
-faas.start(
-  async (
-    request: faas.NitricTrigger<void>
-  ): Promise<faas.Response<Example | string>> => {
-    const ctx = request.context.asHttp();
-    const response: faas.Response<Example | string> = request.defaultResponse();
-
+faas
+  .http(async (ctx: faas.HttpContext): Promise<faas.HttpContext> => {
     // get params from path
-    const { id } = path.test(ctx.path);
+    const { id } = path.test(ctx.req.path);
 
     if (!id) {
-      response.data = "Invalid Request";
-      response.context.asHttp().status = 400;
+      ctx.res.body = "Invalid Request";
+      ctx.res.status = 400;
     }
 
     try {
@@ -23,12 +18,15 @@ faas.start(
         .collection<Example>("examples")
         .doc(id)
         .get();
-      response.data = example;
+
+      ctx.res.json(example);
     } catch (e) {
-      response.context.asHttp().status = 404;
-      response.data = `Example not found!: ${e.message}`;
+      ctx.res.status = 404;
+      ctx.res.body = new TextEncoder().encode(
+        `Example not found!: ${e.message}`
+      );
     }
 
-    return response;
-  }
-);
+    return ctx;
+  })
+  .start();

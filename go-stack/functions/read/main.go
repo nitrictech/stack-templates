@@ -3,17 +3,20 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"path"
 
 	"github.com/nitrictech/go-sdk/api/documents"
 	"github.com/nitrictech/go-sdk/faas"
+	"nitric.io/example-service/common"
 )
 
-// NitricFunction - Handles individual function requests (http, events, etc.)
-func NitricFunction(trigger *faas.NitricTrigger) (*faas.NitricResponse, error) {
-	resp := trigger.DefaultResponse()
+func handler(ctx *faas.HttpContext, next faas.HttpHandler) (*faas.HttpContext, error) {
+	params, ok := ctx.Extras["params"].(map[string]string)
 
-	id := path.Base(trigger.GetContext().AsHttp().Path)
+	if !ok || params == nil {
+		return nil, fmt.Errorf("error retrieving path params")
+	}
+
+	id := params["id"]
 
 	dc, err := documents.New()
 	if err != nil {
@@ -22,24 +25,30 @@ func NitricFunction(trigger *faas.NitricTrigger) (*faas.NitricResponse, error) {
 
 	doc, err := dc.Collection("examples").Doc(id).Get()
 	if err != nil {
-		resp.SetData([]byte("Error retrieving document"))
-		resp.GetContext().AsHttp().Status = 404
-		return resp, nil
+		ctx.Response.Body = []byte("Error retrieving document")
+		ctx.Response.Status = 404
+	} else {
+		b, err := json.Marshal(doc.Content())
+		if err != nil {
+			return nil, err
+		}
+
+		ctx.Response.Headers["Content-Type"] = []string{"application/json"}
+		ctx.Response.Body = b
 	}
 
-	b, err := json.Marshal(doc.Content())
-	if err != nil {
-		return nil, err
-	}
-
-	resp.SetData(b)
-	resp.GetContext().AsHttp().Headers["Content-Type"] = []string{"application/json"}
-
-	return resp, nil
+	return next(ctx)
 }
 
 func main() {
-	if err := faas.Start(NitricFunction); err != nil {
+	err := faas.New().Http(
+		// Retrieve path parameters if available
+		common.PathParser("/examples/:id"),
+		// Actual Handler
+		handler,
+	).Start()
+
+	if err != nil {
 		fmt.Println(err)
 	}
 }

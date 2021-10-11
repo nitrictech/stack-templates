@@ -8,7 +8,7 @@ faas
     const { id } = path.test(ctx.req.path);
 
     if (!id) {
-      ctx.res.body = "Invalid Request";
+      ctx.res.body = new TextEncoder().encode("Invalid Request");
       ctx.res.status = 400;
     }
 

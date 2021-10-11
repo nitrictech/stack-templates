@@ -29,7 +29,7 @@ func handler(ctx *faas.HttpContext, next faas.HttpHandler) (*faas.HttpContext, e
 		return nil, err
 	}
 
-	ctx.Response.Status = 201
+	ctx.Response.Status = 200
 	ctx.Response.Body = []byte(fmt.Sprintf("Created example with ID: %s", id))
 
 	return next(ctx)

@@ -43,6 +43,9 @@ describe("Stack Template API Tests", () => {
     // set id
     id = res.text.split("Created example with ID: ")[1];
 
+    // Ensure ID is defined
+    expect(id).toBeDefined();
+
     expect(res.text).toContain("Created example with ID: ");
   });
 

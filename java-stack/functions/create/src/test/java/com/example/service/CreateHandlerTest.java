@@ -14,10 +14,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import io.nitric.api.document.Collection;
 import io.nitric.api.document.DocumentRef;
 import io.nitric.api.document.Documents;
-import io.nitric.mock.faas.MockTrigger;
+import io.nitric.faas.http.HttpContext;
 
+/**
+ * Provides a CreateFunction unit test class.
+ */
 @ExtendWith(MockitoExtension.class)
-public class CreateFunctionTest {
+public class CreateHandlerTest {
 
     @Test
     public void test_handle() {
@@ -32,18 +35,19 @@ public class CreateFunctionTest {
 
         var data = "{ \"name\": \"java-service\", \"description\": \"Nitric Java Maven Service Example\" }";
 
-        var trigger = MockTrigger.newHttpTriggerBuilder()
-            .setMethod("POST")
-            .setPath("/")
-            .setDataAsText(data)
+        var context = HttpContext.newBuilder()
+            .method("POST")
+            .path("/")
+            .data(data)
             .build();
 
-        var function = new CreateFunction(documents);
+        var function = new CreateHandler(documents);
 
-        var response = function.handle(trigger);
+        var ctx = function.handle(context);
 
-        assertEquals(200, response.getContext().asHttp().getStatus());
-        assertTrue(response.getDataAsText().startsWith("Created example with ID:"));
+        assertNotNull(ctx);
+        assertEquals(200, ctx.getResponse().getStatus());
+        assertTrue(ctx.getResponse().getDataAsText().startsWith("Created example with ID:"));
 
         verify(documentRef, times(1)).set(any());
     }

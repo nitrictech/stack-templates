@@ -30,7 +30,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.example.service.ReadFunction</mainClass>
+                            <mainClass>com.example.service.ReadHandler</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

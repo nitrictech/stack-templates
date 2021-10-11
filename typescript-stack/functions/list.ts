@@ -2,10 +2,8 @@ import { faas, documents } from "@nitric/sdk";
 import { Example } from "../common";
 
 // Start your function here
-faas.start(
-  async (request: faas.NitricTrigger<void>): Promise<faas.Response<any>> => {
-    const response: faas.Response<any> = request.defaultResponse();
-
+faas
+  .http(async (ctx: faas.HttpContext): Promise<faas.HttpContext> => {
     try {
       const examples = await documents()
         .collection<Example>("examples")
@@ -16,13 +14,13 @@ faas.start(
       for (const example of examples.documents) {
         exampleResults.push(example.content);
       }
-      response.data = exampleResults;
+      ctx.res.json(exampleResults);
     } catch (e) {
       console.log(e);
-      response.context.asHttp().status = 404;
-      response.data = "Examples not found!";
+      ctx.res.status = 404;
+      ctx.res.body = new TextEncoder().encode("Examples not found!");
     }
 
-    return response;
-  }
-);
+    return ctx;
+  })
+  .start();

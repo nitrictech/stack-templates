@@ -1,18 +1,18 @@
-from nitric.faas import start, Trigger
+from nitric import faas
 from nitric.api import Documents
+import json
 
 from common.example import generate_id
 
 
-async def handler(trigger: Trigger) -> str:
-    example = trigger.get_object()
-
+async def handler(ctx: faas.HttpContext) -> faas.HttpContext:
+    example = json.loads(ctx.req.body)
     doc_id = generate_id()
-
     await Documents().collection("examples").doc(doc_id).set(example)
 
-    return f'Created example with ID: {doc_id}'
+    ctx.res.body = f'Created example with ID: {doc_id}'
+    return ctx
 
 
 if __name__ == "__main__":
-    start(handler)
+    faas.http(handler).start()

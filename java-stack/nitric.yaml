@@ -1,13 +1,13 @@
-name: example-java-service
+name: java-stack
 
 # Nitric functions
 functions:
   create:
-    handler: functions/create/target/example-create-1.0.jar
+    handler: target/create.jar
   list:
-    handler: functions/list/target/example-list-1.0.jar
+    handler: target/list.jar
   read:
-    handler: functions/read/target/example-read-1.0.jar
+    handler: target/read.jar
 
 # Nitric collections
 collections:

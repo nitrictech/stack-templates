@@ -5,5 +5,7 @@ templates:
     path: ./python-stack
   - name: Java Stack
     path: ./java-stack
+  - name: Java Stack (Multi Module)
+    path: ./java-stack-multi
   - name: Go Stack
     path: ./go-stack

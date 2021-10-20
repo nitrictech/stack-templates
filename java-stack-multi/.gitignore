@@ -6,6 +6,3 @@
 .vscode/
 .classpath
 .project
-
-# Maven build
-/target/

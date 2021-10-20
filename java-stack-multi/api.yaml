@@ -1,0 +1,56 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Example API
+  description: Example API
+paths:
+  /examples:
+    get:
+      operationId: examples-list
+      x-nitric-target:
+        name: list
+        type: function
+      description: Retrieve all examples
+      responses:
+        '200':
+          description: Successful response
+    post:
+      operationId: examples-create
+      x-nitric-target:
+        name: create
+        type: function
+      description: Creates and persists new examples
+      responses:
+        '200':
+          description: Successful response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExamplesCreate'
+  /examples/{exampleId}:
+    get:
+      operationId: examples-read
+      parameters:
+        - in: path
+          name: exampleId
+          schema:
+            type: string
+          required: true
+      x-nitric-target:
+        name: read
+        type: function
+      description: Retrieve an existing example by its ID
+      responses:
+        '200':
+          description: Successful response
+components:
+  schemas:
+    ExamplesCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string

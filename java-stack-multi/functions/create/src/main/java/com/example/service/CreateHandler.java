@@ -32,13 +32,13 @@ public class CreateHandler implements HttpHandler {
 
             documents.collection("examples").doc(id, Example.class).set(example);
 
-            var msg = String.format("Created example with ID: %s", id);
-            context.getResponse().data(msg);
+            context.getResponse()
+                .text("Created example with ID: %s", id);
 
         } catch (IOException ioe) {
             context.getResponse()
                 .status(500)
-                .data("error: " + ioe);
+                .text("error: %s", ioe);
         }
 
         return context;

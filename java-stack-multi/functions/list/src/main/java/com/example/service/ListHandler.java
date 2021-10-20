@@ -41,12 +41,12 @@ public class ListHandler implements HttpHandler {
 
             context.getResponse()
                 .contentType("application/json")
-                .data(json);
+                .text(json);
 
         } catch (IOException ioe) {
             context.getResponse()
                 .status(500)
-                .data("Error querying examples: " + ioe.toString());
+                .text("Error querying examples: %s", ioe);
         }
 
         return context;

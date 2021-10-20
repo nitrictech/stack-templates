@@ -38,7 +38,7 @@ public class CreateHandlerTest {
         var context = HttpContext.newBuilder()
             .method("POST")
             .path("/")
-            .data(data)
+            .text(data)
             .build();
 
         var function = new CreateHandler(documents);

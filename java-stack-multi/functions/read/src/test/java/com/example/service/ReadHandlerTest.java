@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import java.util.Map;
+
 import com.example.service.model.Example;
 
 import org.junit.jupiter.api.Test;
@@ -29,12 +31,12 @@ public class ReadHandlerTest {
 
         var documents = mock(Documents.class, Mockito.RETURNS_DEEP_STUBS); 
 
-        var json = "{\"name\":\"name\",\"description\":\"description\"}";
+        var map = Map.of("name", "name", "description", "description");
 
         when(documents.collection(anyString())
-                .doc(matches("e56b618e-bc13-41be-b935-8c280e37fcce"), eq(Example.class))
-                .getJson()
-            ).thenReturn(json);
+                .doc(matches("e56b618e-bc13-41be-b935-8c280e37fcce"))
+                .get()
+            ).thenReturn(map);
 
         var context = HttpContext.newBuilder()
             .method("GET")
@@ -56,8 +58,8 @@ public class ReadHandlerTest {
         var documents = mock(Documents.class, Mockito.RETURNS_DEEP_STUBS); 
 
         when(documents.collection(anyString())
-                .doc(anyString(), eq(Example.class))
-                .getJson()
+                .doc(anyString())
+                .get()
             ).thenThrow(new NotFoundException(Code.NOT_FOUND, "", null, null));
 
         var context = HttpContext.newBuilder()

@@ -1,7 +1,9 @@
 package com.example.service;
 
+import java.io.IOException;
+
 import com.example.service.middleware.LoggerMiddleware;
-import com.example.service.model.Example;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.nitric.api.NotFoundException;
 import io.nitric.api.document.Documents;
@@ -27,20 +29,27 @@ public class ReadHandler implements HttpHandler {
         var id = paths[paths.length - 1];
 
         try {
-            var json = documents.collection("examples")
-                .doc(id, Example.class)
-                .getJson();
+            var example = documents.collection("examples")
+                .doc(id)
+                .get();
+
+            var json = new ObjectMapper().writeValueAsString(example);
 
             context.getResponse()
                 .contentType("application/json")
-                .data(json);
+                .text(json);
 
         } catch (NotFoundException nfe) {
             context.getResponse()
                 .status(404)
-                .data("Document not found: " + id);
-        }
+                .text("Document not found: %s", id);
 
+        } catch (IOException ioe) {
+            context.getResponse()
+                .status(500)
+                .text("Error querying examples: %s", ioe);
+        }
+    
         return context;
     }
 

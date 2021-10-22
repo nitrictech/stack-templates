@@ -9,3 +9,5 @@ templates:
     path: ./java-stack-multi
   - name: Go Stack
     path: ./go-stack
+  - name: React Site (with TypeScript API) Stack
+    path: ./react-site-stack

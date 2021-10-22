@@ -1,0 +1,43 @@
+name: example-react-site
+
+# Nitric functions
+functions:
+  create:
+    context: services
+    handler: functions/create.ts
+  read:
+    context: services
+    handler: functions/read.ts
+  list:
+    context: services
+    handler: functions/list.ts
+
+# Nitric collections
+collections:
+  examples: {}
+
+# Nitric APIs
+apis:
+  examples: api.yaml
+
+# Nitric sites
+sites:
+  website:
+    path: website
+    assetPath: ./build
+    buildScripts:
+      - yarn install --frozen-lockfile
+      - yarn build
+
+# Nitric entrypoints
+entrypoints:
+  main:
+    paths:
+      /:
+        type: site
+        target: website
+      /examples:
+        type: api
+        target: examples
+    domains:
+      - my-domain.com

@@ -9,6 +9,7 @@ faas
         .collection<Example>("examples")
         .query()
         .fetch();
+
       const exampleResults = [];
 
       for (const example of examples.documents) {
@@ -16,9 +17,8 @@ faas
       }
       ctx.res.json(exampleResults);
     } catch (e) {
-      console.log(e);
-      ctx.res.status = 404;
-      ctx.res.body = new TextEncoder().encode("Examples not found!");
+      ctx.res.status = 500;
+      ctx.res.body = new TextEncoder().encode("An unexpected error occurred");
     }
 
     return ctx;

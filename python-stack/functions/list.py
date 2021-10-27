@@ -1,20 +1,20 @@
+import json
+
 from nitric.api.exception import NitricServiceException
-from nitric.faas import start, Trigger, Response
+from nitric.faas import start, HttpContext
 from nitric.api import Documents
 
 
-async def handler(trigger: Trigger) -> Response:
-    response = trigger.default_response()
-
+async def handler(ctx: HttpContext) -> HttpContext:
     try:
         examples_query = Documents().collection("examples").query()
         results = await examples_query.fetch()
-        response.data = [doc.content for doc in results.documents]
+        ctx.res.body = json.dumps([doc.content for doc in results.documents])
     except NitricServiceException:
-        response.context.as_http().status = 500
-        response.data = "An unexpected error occurred"
+        ctx.res.status = 500
+        ctx.res.body = "An unexpected error occurred"
 
-    return response
+    return ctx
 
 
 if __name__ == "__main__":

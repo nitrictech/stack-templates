@@ -1,1 +1,1 @@
-nitric==0.4.3
+nitric==0.6.0.dev8

@@ -1,31 +1,28 @@
 from nitric.api.exception import NotFoundException, NitricServiceException
-from nitric.faas import start, Trigger, Response
+from nitric.faas import start, HttpContext
 from nitric.api import Documents
+import json
 
 
-async def handler(trigger: Trigger) -> Response:
-    ctx = trigger.context.as_http()
-    response = trigger.default_response()
-
-    # get id param from HTTP request path
+async def handler(ctx: HttpContext) -> HttpContext:
     try:
-        doc_id = ctx.path.split("/")[-1]
+        doc_id = ctx.req.path.split("/")[-1]
     except IndexError:
-        response.data = "Invalid request"
-        response.context.as_http().status = 400
-        return response
+        ctx.res.body = "Invalid request"
+        ctx.res.status = 400
+        return ctx
 
     try:
         example = await Documents().collection("examples").doc(doc_id).get()
-        response.data = example.content
+        ctx.res.body = json.dumps(example.content)
     except NotFoundException:
-        response.context.as_http().status = 404
-        response.data = "Example not found"
+        ctx.res.status = 404
+        ctx.res.body = "Example not found"
     except NitricServiceException:
-        response.context.as_http().status = 500
-        response.data = "An unexpected error occurred"
+        ctx.res.status = 500
+        ctx.res.body = "An unexpected error occurred"
 
-    return response
+    return ctx
 
 
 if __name__ == "__main__":

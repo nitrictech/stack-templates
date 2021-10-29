@@ -3,12 +3,11 @@ package com.example.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Map;
-
-import com.example.service.model.Example;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,7 +48,8 @@ public class ReadHandlerTest {
 
         assertNotNull(ctx);
         assertEquals(200, ctx.getResponse().getStatus());
-        assertEquals("{\"name\":\"name\",\"description\":\"description\"}", ctx.getResponse().getDataAsText());
+        assertTrue(ctx.getResponse().getDataAsText().contains("\"description\":\"description\""));
+        assertTrue(ctx.getResponse().getDataAsText().contains("\"name\":\"name\""));
     }
 
     @Test

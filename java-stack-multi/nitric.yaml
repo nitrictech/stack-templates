@@ -4,10 +4,13 @@ name: example-java-service
 functions:
   create:
     handler: functions/create/target/example-create-1.0.jar
+    memory: 1024
   list:
     handler: functions/list/target/example-list-1.0.jar
+    memory: 1024
   read:
     handler: functions/read/target/example-read-1.0.jar
+    memory: 1024
 
 # Nitric collections
 collections:

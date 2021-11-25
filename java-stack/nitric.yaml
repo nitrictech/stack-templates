@@ -4,10 +4,13 @@ name: java-stack
 functions:
   create:
     handler: target/create.jar
+    memory: 1024
   list:
     handler: target/list.jar
+    memory: 1024
   read:
     handler: target/read.jar
+    memory: 1024
 
 # Nitric collections
 collections:
